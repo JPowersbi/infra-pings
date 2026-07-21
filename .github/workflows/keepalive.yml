@@ -15,6 +15,6 @@ jobs:
             echo "ERROR: secret is empty - check the secret name"
             exit 1
           fi
-          resp=$(curl -s -w "\nHTTP %{http_code}" -H "apikey: $KEY" "https://auatsfoqjezmduxqsdvi.supabase.co/rest/v1/")
+ resp=$(curl -s -w "\nHTTP %{http_code}" -H "apikey: $KEY" "https://auatsfoqjezmduxqsdvi.supabase.co/auth/v1/health")
           echo "$resp"
           echo "$resp" | grep -q "HTTP 200"
