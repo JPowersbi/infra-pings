@@ -1,0 +1,20 @@
+name: Supabase Keep-Alive
+on:
+  schedule:
+    - cron: "0 12 * * 1,4"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST endpoint
+        env:
+          KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "ERROR: secret is empty - check the secret name"
+            exit 1
+          fi
+          resp=$(curl -s -w "\nHTTP %{http_code}" -H "apikey: $KEY" "https://auatsfoqjezmduxqsdvi.supabase.co/auth/v1/health")
+          echo "$resp"
+          echo "$resp" | grep -q "HTTP 200"
