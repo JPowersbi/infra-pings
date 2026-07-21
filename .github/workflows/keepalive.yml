@@ -10,11 +10,11 @@ jobs:
       - name: Ping Supabase REST endpoint
         env:
           KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-        run: |
+   run: |
           if [ -z "$KEY" ]; then
             echo "ERROR: secret is empty - check the secret name"
             exit 1
           fi
-          code=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $KEY" "https://auatsfoqjezmduxqsdvi.supabase.co/rest/v1/")
-          echo "HTTP $code"
-          test "$code" = "200"
+          resp=$(curl -s -w "\nHTTP %{http_code}" -H "apikey: $KEY" "https://auatsfoqjezmduxqsdvi.supabase.co/rest/v1/")
+          echo "$resp"
+          echo "$resp" | grep -q "HTTP 200"
